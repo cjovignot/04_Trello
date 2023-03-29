@@ -22,7 +22,7 @@ fetch('http://localhost/wordpress/wp-json/wp/v2/comments')
 .then((resp) => resp.json())
 .then(function(data) {
     comments.value = data;
-    // console.log(data)
+    // console.log(route.params)
 })
 
 
@@ -47,7 +47,7 @@ const deleteComment = async (id) => {
 
 <template>
     <div style="margin-bottom: 20px;" v-for="(comment, index) in comments" :key="index">
-        <div class="div_comment" v-show="comment.post == route.params.post">
+        <div class="div_comment" v-show="comment.post == route.params.id">
             <div style="display: flex;">
                 <img src="../../src/assets/logo.svg" alt="logo">
                 <div class="comment_content" v-show='toggle'>

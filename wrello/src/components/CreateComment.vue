@@ -1,10 +1,13 @@
 <script setup>
 import {ref} from 'vue';
 import WPAPI from 'wpapi';
+import { useRoute } from 'vue-router';
 import { createToaster } from "@meforma/vue-toaster";
+import { routeLocationKey } from 'vue-router';
 const toaster = createToaster({ /* options */ });
 
 let comments = ref([])
+const route = useRoute();
 
  fetch('http://localhost/wordpress/wp-json/wp/v2/comments')
  .then((resp) => resp.json())
@@ -25,7 +28,7 @@ let new_com = ref('');
 const createComment = async () => {
     try {
         const comment = await wp.comments().create({
-            post: "10",
+            post: route.params.id,
             author: "1",
             author_name: comments.value.author_name,
             content: content,
