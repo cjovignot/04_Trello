@@ -1,9 +1,11 @@
 <script setup>
 import TheWelcome from '../components/TheWelcome.vue'
+import Cards from '../components/CardsList.vue'
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+   <div>prout</div>
+    <Cards />
   </main>
 </template>
