@@ -5,6 +5,7 @@
 
 <template>
   <div class="card">
+    PROUT
     <Card />
   </div>
 </template>

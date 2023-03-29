@@ -1,11 +1,12 @@
 <script setup>
 import TheWelcome from '../components/TheWelcome.vue'
-import Cards from '../components/CardsList.vue'
+
+import CatList from '../components/Lists.vue'
 </script>
 
 <template>
   <main>
-   <div>prout</div>
-    <Cards />
+ 
+   <CatList />
   </main>
 </template>

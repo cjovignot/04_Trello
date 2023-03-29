@@ -5,6 +5,13 @@ import { RouterLink } from 'vue-router'
 import CreateCard from './CreateCard.vue'
 import WPAPI from 'wpapi'
 
+let prop = defineProps({
+    catid: {
+        type: String,
+
+    }
+})
+
 let cards = ref([])
 var data = new WPAPI({
     endpoint: 'http://localhost/wordpress/index.php/wp-json/',
@@ -29,7 +36,7 @@ console.log(cards)
 </script>
 
 <template>
-     <div>prouty</div>
+     <div>prop {{ prop.catid }} </div>
      <CreateCard />
     <div class="post" v-for="(card, index) in cards" :key="index" >
 
