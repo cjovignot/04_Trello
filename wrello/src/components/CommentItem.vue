@@ -16,21 +16,18 @@ const toaster = createToaster({ /* options */ });
 const toggle = ref(true);
 const route = useRoute();
 
+
+
 // Fetch API
 let comments = ref([]);
-fetch('http://localhost/wordpress/wp-json/wp/v2/comments')
-.then((resp) => resp.json())
-.then(function(data) {
-    comments.value = data;
-    // console.log(route.params)
-})
-
-
 const wp = new WPAPI({
-   endpoint: 'http://localhost/wordpress/wp-json/',
+   endpoint: 'http://localhost/wordpress/index.php/wp-json/',
    username: 'wankeradmin',
    password: 'wankerAdmin',
 });
+wp.comments().get().then(data => {comments.value = data})
+
+// DELETE FUNCTION
 let deletecom = ref('');
 const deleteComment = async (id) => {
     try {
