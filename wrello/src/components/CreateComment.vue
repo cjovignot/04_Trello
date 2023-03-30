@@ -3,7 +3,6 @@ import {ref} from 'vue';
 import WPAPI from 'wpapi';
 import { useRoute } from 'vue-router';
 import { createToaster } from "@meforma/vue-toaster";
-import { routeLocationKey } from 'vue-router';
 const toaster = createToaster({ /* options */ });
 
 let comments = ref([])
@@ -24,6 +23,11 @@ const wp = new WPAPI({
    password: 'wankerAdmin'
 });
 
+const emit = defineEmits([
+    'comment'
+])
+let a = 1;
+let i = ref()
 let new_com = ref('');
 const createComment = async () => {
     try {
@@ -35,6 +39,9 @@ const createComment = async () => {
             email: "mail@gmail.com",
         });
         await comments.value.push(comment);
+        i.value = a++;
+        // console.log(i.value)
+        emit('comment', i.value );
         toaster.success('Created comment with id: ' + comment.author_name);
     } catch (err) {
         toaster.error(err.message);

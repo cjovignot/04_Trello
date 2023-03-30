@@ -1,10 +1,9 @@
 <script setup>
-import {ref} from 'vue';
+import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import WPAPI from 'wpapi';
+// Plugin for toaster
 import { createToaster } from "@meforma/vue-toaster";
-
-
 // Plugin to display comment relative time
 import * as dayjs from 'dayjs';
 import * as relativeTime from 'dayjs/plugin/relativeTime';
@@ -12,39 +11,89 @@ import * as calendar from 'dayjs/plugin/calendar';
 dayjs.extend(relativeTime);
 dayjs.extend(calendar)
 
+
+const props = defineProps({
+    test: {
+        type: String,
+    }
+})
+// Two ways to watch
+// 
+// watch(props.test, (newVal, oldVal)=> {
+//     console.log('testwatch: ', newVal)
+//     console.log(props.test)
+// })
+// props.test;
+watch(() => props.test, () => {
+    fetchComment();
+})
+
+// CONST for plugins
 const toaster = createToaster({ /* options */ });
 const toggle = ref(true);
 const route = useRoute();
 
 
-
 // Fetch API
 let comments = ref([]);
-const wp = new WPAPI({
-   endpoint: 'http://localhost/wordpress/index.php/wp-json/',
-   username: 'wankeradmin',
-   password: 'wankerAdmin',
-});
-wp.comments().get().then(data => {comments.value = data})
 
+function fetchComment() {
+    const wp = new WPAPI({
+       endpoint: 'http://localhost/wordpress/index.php/wp-json/',
+       username: 'wankeradmin',
+       password: 'wankerAdmin',
+    });
+    wp.comments().param("post", route.params.id).get().then((all_comments) => { comments.value = all_comments })
+}
+fetchComment();
 // DELETE FUNCTION
 let deletecom = ref('');
+const wp = new WPAPI({
+       endpoint: 'http://localhost/wordpress/index.php/wp-json/',
+       username: 'wankeradmin',
+       password: 'wankerAdmin',
+    });
 const deleteComment = async (id) => {
     try {
         await wp.comments().id(id).delete({force: true});
-        comments.value = comments.value.filter((comment) => comment.id !== id);
+        // comments.value = comments.value.filter((comment) => comment.id !== id);
+        fetchComment(); 
         toaster.success('Comment deleted from id: ' + id);
     } catch (err) {
         toaster.error('Comment deleting aborted !');
     }
     return { deletecom, deleteComment }
 };
+
+// EDIT FUNCTION
+let new_com = ref('');
+const editComment = async (content, id) => {
+    try {
+        const comment = await wp.comments().id(id).update({
+            post: route.params.id,
+            author: "1",
+            author_name: "wankeradmin",
+            content: content,
+            email: "mail@gmail.com",
+            date: dayjs()
+        });
+        await comments.value.push(comment);
+        // console.log(i.value)
+        toaster.success('Comment edited with id: ' + comment.author_name);
+    } catch (err) {
+        toaster.error(err.message);
+    }
+    console.log(content)
+    this.router.push({ path: '/comment/' })
+    return { new_com, editComment }
+};
+
 </script>
 
 
 <template>
     <div style="margin-bottom: 20px;" v-for="(comment, index) in comments" :key="index">
-        <div class="div_comment" v-show="comment.post == route.params.id">
+        <div class="div_comment">
             <div style="display: flex;">
                 <img src="../../src/assets/logo.svg" alt="logo">
                 <div class="comment_content" v-show='toggle'>
@@ -65,12 +114,13 @@ const deleteComment = async (id) => {
                         <h4 name="author_name">{{ comment.author_name }}</h4>
                     <div class="comment_head">
                         <div class="comment_content">
-                            <input name="content" v-model="comment.content.rendered" type="text" >
+                            <!-- <input name="content" v-model="comment.content.rendered" type="text" > -->
+                            <textarea class="content" type="text" v-model="comment.content.rendered"></textarea>
                         </div>
                     </div>
                     <div class="button_div2">
                         <div style="display: flex; align-items: center">
-                            <button v-on:click="createComment" action="submit">Enregistrer</button>
+                            <button v-on:click="editComment(comment.content.rendered, comment.id)" action="submit">Enregistrer</button>
                             <button @click='toggle = !toggle' id="cancel"></button>
                         </div>
                         <div>
@@ -169,7 +219,10 @@ li {
     padding: 4px 7px 6px 7px;
     background-color: white;
     border-radius: 4px;
+    outline: none;
     display: flex;
+    flex-direction: column;
+    resize: none;
     min-height: 25px;
 }
 input {

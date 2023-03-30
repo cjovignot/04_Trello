@@ -1,17 +1,24 @@
 <script setup>
+import { ref } from 'vue';
 import CommentItem from '../components/CommentItem.vue'
 import CreateComment from '../components/CreateComment.vue'
 
-// defineProps {
-//     post:
-// }
+let propComment = ref([]);
+function addpropComment(value) {
+    // console.log(value)
+    propComment.value = value;
+}
+
 </script>
 
 <template >
     <section class="comment_section">
-        <CreateComment />
-
-        <CommentItem /> <!-- :post="" -->
+        <CreateComment
+        @comment="addpropComment"
+        />
+        <CommentItem
+        :test="propComment"
+        />
     </section>
 </template>
 
@@ -21,6 +28,6 @@ import CreateComment from '../components/CreateComment.vue'
     width: 600px;
     margin: auto;
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 0px 0px 10px 10px;
 }
 </style>

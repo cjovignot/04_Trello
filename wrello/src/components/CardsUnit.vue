@@ -3,7 +3,7 @@ import { ref,onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();  
-console.log(route.params.id)
+// console.log(route.params.id)
 let card = ref([])
 const url = "http://localhost/wordpress/index.php/wp-json/wp/v2/posts/" + route.params.id;
 
@@ -18,7 +18,8 @@ await fetch(url,
 .then((response) => response.json()) 
 .then((data) => { card.value = data
 
-console.log(card)})
+// console.log(card)
+})
 
 })
 

@@ -48,6 +48,9 @@ console.log(cards)
 
 </template>
 <style>
+/* .card {
+    margin: auto;
+} */
 /* .post:nth-child(2) {
   background: red;
 } */
