@@ -36,8 +36,6 @@ const route = useRoute();
 
 // Fetch API
 let comments = ref([]);
-
-
 function fetchComment() {
     const wp = new WPAPI({
        endpoint: 'http://localhost/wordpress/index.php/wp-json/',
