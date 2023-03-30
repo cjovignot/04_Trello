@@ -36,13 +36,6 @@ const route = useRoute();
 
 // Fetch API
 let comments = ref([]);
-fetch('http://localhost/wordpress/index.php/wp-json/wp/v2/comments')
-.then((resp) => resp.json())
-.then(function(data) {
-    comments.value = data;
-    // console.log(route.params)
-})
-
 function fetchComment() {
     const wp = new WPAPI({
        endpoint: 'http://localhost/wordpress/index.php/wp-json/',
