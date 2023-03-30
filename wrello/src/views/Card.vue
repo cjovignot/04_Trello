@@ -6,10 +6,13 @@
 
 <template>
   <div class="card">
-    PROUT
+
     <Card />
     <comments />
   </div>
 </template>
 
 
+<style>
+
+</style>

@@ -4,6 +4,8 @@ import { ref,onMounted } from 'vue';
 import { RouterLink } from 'vue-router'
 import CreateCard from './CreateCard.vue'
 import WPAPI from 'wpapi'
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
 let prop = defineProps({
     catid: {
@@ -36,11 +38,10 @@ console.log(cards)
 </script>
 
 <template>
-     <div>prop {{ prop.catid }} </div>
+   
      <CreateCard />
     <div class="post" v-for="(card, index) in cards" :key="index" >
-
-  <a :href="'/card/'+card.id"> 
+    <a :href="'/card/'+card.id"> 
     <div>{{ card.title.rendered }} </div>
 </a>
 

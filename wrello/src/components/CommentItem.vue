@@ -18,7 +18,7 @@ const route = useRoute();
 
 // Fetch API
 let comments = ref([]);
-fetch('http://localhost/wordpress/wp-json/wp/v2/comments')
+fetch('http://localhost/wordpress/index.php/wp-json/wp/v2/comments')
 .then((resp) => resp.json())
 .then(function(data) {
     comments.value = data;

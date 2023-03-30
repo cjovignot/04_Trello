@@ -19,7 +19,7 @@ const route = useRoute();
 let content = "";
 
 const wp = new WPAPI({
-   endpoint: 'http://localhost/wordpress/wp-json/',
+   endpoint: 'http://localhost/wordpress/index.php/wp-json/',
    username: 'wankeradmin',
    password: 'wankerAdmin'
 });
