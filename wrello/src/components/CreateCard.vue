@@ -5,7 +5,11 @@ const url = "http://localhost/wordpress/index.php/wp-json/wp/v2/    ";
 
 let title=ref("");
  
-
+const prop = defineProps({
+  catid: {
+    type: Number,
+  }
+})
      
     const wp = new WPAPI({
   endpoint: 'http://localhost/wordpress/index.php/wp-json/',
@@ -20,7 +24,8 @@ let title=ref("");
         const article = await wp.posts().create({
           title: articleName.value,
           content: 'prout',
-          status: 'publish'
+          status: 'publish',
+          categories: [prop.catid]
 
 
         

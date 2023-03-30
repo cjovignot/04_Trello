@@ -7,7 +7,7 @@ import WPAPI from 'wpapi'
 
 let prop = defineProps({
     catid: {
-        type: String,
+        type: Number,
 
     }
 })
@@ -19,7 +19,9 @@ var data = new WPAPI({
     username: 'wankeradmin',
     password: 'wankerAdmin'
 });
-data.posts().get().then( posts => { cards.value = posts  } );
+   data.posts().param("categories", prop.catid).get().then( posts => { cards.value = posts  })
+
+// data.posts().get().then( posts => { cards.value = posts  } );
 
 console.log(cards)
 // const url = "http://localhost/wordpress/index.php/wp-json/wp/v2/";
@@ -36,18 +38,28 @@ console.log(cards)
 </script>
 
 <template>
-     <div>prop {{ prop.catid }} </div>
-     <CreateCard />
+     <!-- <div>prop {{ prop.catid }} </div> -->
     <div class="post" v-for="(card, index) in cards" :key="index" >
-
   <a :href="'/card/'+card.id"> 
-    <div>{{ card.title.rendered }} </div>
+  
+    <div class="card">{{ card.title.rendered }} </div>
 </a>
 
   </div>
-
+  <CreateCard :catid="prop.catid"/>
 </template>
 <style>
+.card{
+  height: 20px;
+  background-color: white;
+  margin-top:5px;
+  overflow: hidden;
+ 
+}
+a{
+  text-decoration: none;
+  color: #172b4d;
+}
 /* .post:nth-child(2) {
   background: red;
 } */
