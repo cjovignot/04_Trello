@@ -36,11 +36,10 @@ console.log(cards)
 </script>
 
 <template>
-     <div>prop {{ prop.catid }} </div>
+   
      <CreateCard />
     <div class="post" v-for="(card, index) in cards" :key="index" >
-
-  <a :href="'/card/'+card.id"> 
+    <a :href="'/card/'+card.id"> 
     <div>{{ card.title.rendered }} </div>
 </a>
 
