@@ -3,7 +3,6 @@ import { ref,onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import WPAPI from 'wpapi'
 import { createToaster } from "@meforma/vue-toaster";
-import RichTextEditor from './RichTextEditor.vue'
 
 // import Tiptap from './Tiptap.vue'
 

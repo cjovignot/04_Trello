@@ -4,8 +4,6 @@ import { ref,onMounted } from 'vue';
 import { RouterLink } from 'vue-router'
 import CreateCard from './CreateCard.vue'
 import WPAPI from 'wpapi'
-import { QuillEditor } from '@vueup/vue-quill'
-import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
 let prop = defineProps({
     catid: {
