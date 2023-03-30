@@ -149,6 +149,7 @@
     margin: 0px;
     border-radius: 3px;
     display: inline-table;
+    width: 215px;
   }
   .ajout {
   border-radius: 3px;
