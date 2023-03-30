@@ -42,14 +42,14 @@ console.log(cards)
     <div class="post" v-for="(card, index) in cards" :key="index" >
   <a :href="'/card/'+card.id"> 
   
-    <div class="card">{{ card.title.rendered }} </div>
+    <div class="cardtitle">{{ card.title.rendered }} </div>
 </a>
 
   </div>
   <CreateCard :catid="prop.catid"/>
 </template>
 <style>
-.card{
+.cardtitle{
   height: 20px;
   background-color: white;
   margin-top:5px;
