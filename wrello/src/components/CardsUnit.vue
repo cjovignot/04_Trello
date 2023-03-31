@@ -53,7 +53,7 @@ console.log(route.params.id)
             <div style="display: flex; align-items: center;">
                 <img style="height: 20px; width: 18px;" src="../../public/text.png" alt="">
                 <h4 id="title" v-html=card.title.rendered></h4>
-                <button id="edit_card_title" @click="toggle = !toggle"><img src="../../public/edit.png" alt=""></button>
+                <button id="edit_card_title" @click="toggle = !toggle"><img src="../../public/edit2.png" alt=""></button>
             </div>
             <div id="content" v-html=card.content.rendered></div>
         </div>
