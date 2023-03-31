@@ -5,7 +5,6 @@ import CreateComment from '../components/CreateComment.vue'
 
 let propComment = ref([]);
 function addpropComment(value) {
-    // console.log(value)
     propComment.value = value;
 }
 

@@ -22,7 +22,7 @@
             <div class="panel_menu"><img src="../../public/wall.jpg" alt="">Wrello</div>
         </div>
         <div id="panel_header_bottom">
-            <img id="offer" src="../../public/panelimg.png" alt="">
+            <div id="offer" alt=""></div>
         </div>
     </section>
 </template>
@@ -34,6 +34,7 @@ section {
     justify-content: space-between;
     background-color: hsl(202deg 10% 15.7%);
     color: white;
+    position: fixed;
     width: 260px;
     height: 94vh;
     opacity: 96%;
@@ -62,14 +63,21 @@ section p {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 75px;
+    height: 80px;
     width: 100%;
     padding: 6px;
     border-top: 1px rgba(128, 128, 128, 0.566) solid;
 }
 #offer {
     width: 100%;
+    background-size: 100%;
     height: 100%;
+    background-image: url(../public/panelimg.png);
+    background-position: center;
+}
+#offer:hover {
+    cursor: pointer;
+    background-image: url(../public/panelimghover.png);
 }
 .panel_body {
     padding: 16px 0;
