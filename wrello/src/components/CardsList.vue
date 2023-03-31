@@ -60,7 +60,8 @@ background: linear-gradient(90deg, rgba(0,29,37,1) 0%, rgba(255,255,255,1) 4%, r
 
 .postlist{
   display: flex;
-  justify-content: space-between
+  justify-content: space-between;
+  align-items: end;
 }
 a{
   text-decoration: none;

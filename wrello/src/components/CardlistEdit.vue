@@ -77,7 +77,7 @@ const editCardTitle = async (title) => {
 <template>
     <div v-if="cards.title != undefined"> 
 <!-- <div class="overlay" v-show ='!toggle' @click="toggle = !toggle"> -->
-    <div v-if="showForm">
+<div v-if="showForm">
     <!-- <div class="conttog"  v-show ='!toggle'   > -->
     <input ref="titleinput" class="stack" type="text" name="title" v-model="cards.title.rendered" @keyup.enter="toggleShowForm" v-on:keyup.enter="editCardTitle(cards.title.rendered)">
     <button class="stackok" type="text"   @click="toggleShowForm" v-on:click="editCardTitle(cards.title.rendered)"> ok </button>
@@ -96,18 +96,18 @@ const editCardTitle = async (title) => {
 
 <style>
 .buted{
- background-color: white;
- border-radius: 3px;
- border: none
-    
+    background-color: white;
+    border-radius: 3px;
+    border: none
 }
-
+.buted:hover, .deled:hover {
+    cursor: pointer;
+}
 .deled{
- background-color: #DE3C4B;
- color:white;
- border-radius: 3px;
- border: none
-    
+    background-color: #DE3C4B;
+    color:white;
+    border-radius: 3px;
+    border: none
 }
 
 /* .conttog{
@@ -120,42 +120,38 @@ const editCardTitle = async (title) => {
 } */
 
 .stack{
-    
     position: absolute;
     left: -149px;
-    top: 0;
-  z-index: 9;
-  width: 153px;
-  border: none;
-  height: 22px;
+    top: 3.1px;
+    z-index: 9;
+    width: 153px;
+    border: none;
+    height: 22px;
     
 }
 .stackok{
-    
     position: absolute;
     left: 3px;
-    top: 1px;
-  z-index: 9;
+    top: 3px;
+    z-index: 9;
     border: none;
-    border-radius:  3px 0 0 3px ;
+    border-radius: 3px 0 0 3px;
     height: 22px;
     background-color: aquamarine;
-    
-    
-
 }
 
 .stackback{
-    
     position: absolute;
-    left: 29px;
-    top: 0;
-  z-index: 9;
-  border: none;
-  border-left: 1px solid black;
-    border-radius:  0 3px 3px 0;
+    left: 28.9px;
+    top: 2.8px;
+    z-index: 9;
+    border: none;
+    border-left: 1px solid black;
+    border-radius: 0 3px 3px 0;
     height: 22px;
-    
+}
+.stack:hover, .stackok:hover, .stackback:hover {
+    cursor: pointer;
 }
 
 input:focus{

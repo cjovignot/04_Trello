@@ -104,6 +104,7 @@ updateCat()
                 </div>
                   <button @click="deleteCategory(category.id)" class="deletebutton">Delete</button>
                 </div>
+                <hr style="margin: 3px 0 6px 0;">
             <CardList :catid="category.id" />
           </div>
         </div>
