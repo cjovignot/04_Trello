@@ -3,12 +3,15 @@
  import { ref, onMounted, nextTick } from 'vue';
  import CardList from '../components/CardsList.vue'
  import WPAPI from 'wpapi';
+ import EditListName from '../components/EditListName.vue'
 
  let categories = ref([])
  let showForm = ref(false)
  let categoryInput = ref(null);
  let showInput = ref(false)
  let newCategoryName = ref('');
+
+ let categoryNameToRename = ref("");
  
 //  fetch('http://localhost/wordpress/index.php/wp-json/wp/v2/categories')
 //         .then(response => response.json())
@@ -26,22 +29,23 @@
   
   };
 
-  function toggleShowInput() {
+  function toggleShowInput(categoryName) {
     showInput.value = !showInput.value;
-    console.log('toto');
+    categoryNameToRename = categoryName;
   };
 
   
 
   const wp = new WPAPI({
-  endpoint: 'http://localhost/wordpress/index.php/wp-json/',
-  username: 'wankeradmin',
-  password: 'wankerAdmin',
+  endpoint: import.meta.env.VITE_API_ENDPOINT,
+  username: import.meta.env.VITE_USERNAME,
+  password: import.meta.env.VITE_PWD,
   });
+  function updateCat(){
+    wp.categories().get().then((data) => { categories.value = data; }); //fetch get all categories
 
-  wp.categories().get().then((data) => { categories.value = data; }); //fetch get all categories
   // wp.posts().param("categories", 1).get().then((posts) => console.log("POST =>", posts))
-
+}
   
     let categoryName = ref('');       //fetch create category
     const createCategory = async () => {
@@ -50,7 +54,8 @@
           name: categoryName.value,
           // slug: categoryName.value.toLowerCase().replace(/ /g, '-'),
         });
-        categories.value.push(category);
+        // categories.value.push(category);
+        updateCat();
         console.log(categories);
         console.log(`Created category with ID ${category.id}`);
       } catch (err) {
@@ -72,18 +77,16 @@
 
 
 
-// const editCategory = (id, newName) => {
-//   wp.categories().id(id).update({ name: newName })
-//     .then(response => {
-//      // console.log(`Category ${category.id} name updated to ${newName}`);
-//     })
-//     .catch(error => {
-//      // console.error(`Error updating category ${category.id} name:`, error);
-//     });
-// };
+const editCategory = (id, newCategoryName) => {
+  wp.categories().id(id).update({ name: newCategoryName })
+   
+   updateCat();
+    } ;  
 
 
 
+
+updateCat()
 
  </script>
 
@@ -91,14 +94,14 @@
     <div>
       <h1>Lists</h1>
         <div class="list">
-         <div v-for="(category,index) in categories" :key="index" class="note" >
+         <div v-for="(category, index) in categories" :key="index" class="note" >
           <div>
             <div class="listheader">
-              <h2 @click="toggleShowInput">{{ category.name }} </h2>
-                <!-- <div v-if="showInput">tata -->
-                  <!-- <input type="text" placeholder="categorie name" ref="categoryInput" v-model="categoryName"> -->
-                  <!-- <button @click="editCategory(category.id, newName)" class="submitbutton">Changer nom de la liste</button> -->
-                <!-- </div> -->
+              <h2 @click="toggleShowInput(category.name)">{{ category.name }} </h2>
+                <div v-if="showInput !== false && categoryNameToRename == category.name">
+                  <input type="text" :placeholder= "category.name" v-model="newCategoryName">
+                  <button @click="editCategory(category.id, newCategoryName)" class="submitbutton">Changer nom de la liste</button>
+                </div>
                   <button @click="deleteCategory(category.id)" class="deletebutton">Delete</button>
                 </div>
             <CardList :catid="category.id" />
