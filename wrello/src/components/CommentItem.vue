@@ -8,6 +8,7 @@ import { createToaster } from "@meforma/vue-toaster";
 import * as dayjs from 'dayjs';
 import * as relativeTime from 'dayjs/plugin/relativeTime';
 import * as calendar from 'dayjs/plugin/calendar';
+
 dayjs.extend(relativeTime);
 dayjs.extend(calendar)
 
@@ -38,9 +39,9 @@ const route = useRoute();
 let comments = ref([]);
 function fetchComment() {
     const wp = new WPAPI({
-       endpoint: 'http://localhost/wordpress/index.php/wp-json/',
-       username: 'wankeradmin',
-       password: 'wankerAdmin',
+       endpoint: import.meta.env.VITE_API_ENDPOINT,
+       username: import.meta.env.VITE_USERNAME,
+       password: import.meta.env.VITE_PWD,
     });
     wp.comments().param("post", route.params.id).get().then((all_comments) => { comments.value = all_comments })
 }
@@ -48,14 +49,13 @@ fetchComment();
 // DELETE FUNCTION
 let deletecom = ref('');
 const wp = new WPAPI({
-       endpoint: 'http://localhost/wordpress/index.php/wp-json/',
-       username: 'wankeradmin',
-       password: 'wankerAdmin',
+       endpoint: import.meta.env.VITE_API_ENDPOINT,
+       username: import.meta.env.VITE_USERNAME,
+       password: import.meta.env.VITE_PWD,
     });
 const deleteComment = async (id) => {
     try {
         await wp.comments().id(id).delete({force: true});
-        // comments.value = comments.value.filter((comment) => comment.id !== id);
         fetchComment(); 
         toaster.success('Comment deleted from id: ' + id);
     } catch (err) {
@@ -71,13 +71,12 @@ const editComment = async (content, id) => {
         const comment = await wp.comments().id(id).update({
             post: route.params.id,
             author: "1",
-            author_name: "wankeradmin",
+            author_name: import.meta.env.VITE_USERNAME,
             content: content,
-            email: "mail@gmail.com",
+            email: import.meta.env.VITE_MAIL,
             date: dayjs()
         });
         await comments.value.push(comment);
-        // console.log(i.value)
         toaster.success('Comment edited with id: ' + comment.author_name);
     } catch (err) {
         toaster.error(err.message);
@@ -113,7 +112,6 @@ const editComment = async (content, id) => {
                         <h4 name="author_name">{{ comment.author_name }}</h4>
                     <div class="comment_head">
                         <div class="comment_content">
-                            <!-- <input name="content" v-model="comment.content.rendered" type="text" > -->
                             <textarea class="content" type="text" v-model="comment.content.rendered"></textarea>
                         </div>
                     </div>
@@ -238,8 +236,6 @@ input {
 }
 
 
-
-
 .div_comment2 {
     display: flex;
     flex-wrap: wrap;
@@ -265,13 +261,6 @@ img {
     height: 30px;
     width: 30px;
     margin: 0 10px 0px 0px;
-}
-.comment_content {
-    /* display: flex; */
-    /* flex-direction: column; */
-    /* width: 100%; */
-    /* justify-content: flex-start; */
-    /* padding: 5px; */
 }
 input {
     cursor: pointer;

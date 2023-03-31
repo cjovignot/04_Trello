@@ -3,24 +3,18 @@ import {ref} from 'vue';
 import WPAPI from 'wpapi';
 import { useRoute } from 'vue-router';
 import { createToaster } from "@meforma/vue-toaster";
+
 const toaster = createToaster({ /* options */ });
 
 let comments = ref([])
 const route = useRoute();
 
- fetch('http://localhost/wordpress/index.php/wp-json/wp/v2/comments')
- .then((resp) => resp.json())
-.then(function(data) {
-    comments.value = data;
-    // console.log(data)
-})
-
 let content = "";
 
 const wp = new WPAPI({
-   endpoint: 'http://localhost/wordpress/index.php/wp-json/',
-   username: 'wankeradmin',
-   password: 'wankerAdmin'
+       endpoint: import.meta.env.VITE_API_ENDPOINT,
+       username: import.meta.env.VITE_USERNAME,
+       password: import.meta.env.VITE_PWD,
 });
 
 const emit = defineEmits([
@@ -36,18 +30,15 @@ const createComment = async () => {
             author: "1",
             author_name: comments.value.author_name,
             content: content,
-            email: "mail@gmail.com",
+            email: import.meta.env.VITE_MAIL,
         });
         await comments.value.push(comment);
         i.value = a++;
-        // console.log(i.value)
         emit('comment', i.value );
         toaster.success('Created comment with id: ' + comment.author_name);
     } catch (err) {
         toaster.error(err.message);
     }
-    // console.log(content)
-    // this.router.push({ path: '/comment/' })
     return { new_com, createComment }
 };
 </script>

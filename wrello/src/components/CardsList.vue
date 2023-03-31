@@ -1,15 +1,12 @@
-
 <script setup>
-import { ref,onMounted } from 'vue';
-import { RouterLink } from 'vue-router'
+import { ref } from 'vue';
 import CreateCard from './CreateCard.vue'
 import WPAPI from 'wpapi'
 import cardedit from './CardlistEdit.vue'
 
 let prop = defineProps({
     catid: {
-        type: Number,
-
+        type: String,
     }
 })
 
@@ -77,9 +74,4 @@ a{
   text-decoration: none;
   color: #172b4d;
 }
-
-
-
-
 </style>
-
