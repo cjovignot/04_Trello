@@ -7,10 +7,14 @@
  let categories = ref([])
  let showForm = ref(false)
  let categoryInput = ref(null);
+ let showInput = ref(false)
+ let newCategoryName = ref('');
  
- fetch('http://localhost/wordpress/index.php/wp-json/wp/v2/categories')
-        .then(response => response.json())
-        .then(data => categories.value = data);
+//  fetch('http://localhost/wordpress/index.php/wp-json/wp/v2/categories')
+//         .then(response => response.json())
+//         .then(data => categories.value = data);
+
+
 
   function toggleShowForm() {
     showForm.value = !showForm.value;
@@ -19,8 +23,15 @@
           categoryInput.value.focus()
         })
     }
+  
+  };
 
-  }
+  function toggleShowInput() {
+    showInput.value = !showInput.value;
+    console.log('toto');
+  };
+
+  
 
   const wp = new WPAPI({
   endpoint: 'http://localhost/wordpress/index.php/wp-json/',
@@ -28,10 +39,11 @@
   password: 'wankerAdmin',
   });
 
+  wp.categories().get().then((data) => { categories.value = data; }); //fetch get all categories
   // wp.posts().param("categories", 1).get().then((posts) => console.log("POST =>", posts))
 
   
-    let categoryName = ref('');
+    let categoryName = ref('');       //fetch create category
     const createCategory = async () => {
       try {
         const category = await wp.categories().create({
@@ -47,7 +59,7 @@
       return { categoryName, createCategory };
     }
 
-  const deleteCategory = async (id) => {
+  const deleteCategory = async (id) => {       //fetch delete category
   try {
     const result = await wp.categories().id(id).delete({ force: true });
     categories.value = categories.value.filter((category) => category.id !== id);
@@ -57,6 +69,22 @@
   }
 };
 
+
+
+
+// const editCategory = (id, newName) => {
+//   wp.categories().id(id).update({ name: newName })
+//     .then(response => {
+//      // console.log(`Category ${category.id} name updated to ${newName}`);
+//     })
+//     .catch(error => {
+//      // console.error(`Error updating category ${category.id} name:`, error);
+//     });
+// };
+
+
+
+
  </script>
 
 <template>
@@ -65,15 +93,21 @@
         <div class="list">
          <div v-for="(category,index) in categories" :key="index" class="note" >
           <div>
-            <h2>{{ category.name }} </h2>
+            <div class="listheader">
+              <h2 @click="toggleShowInput">{{ category.name }} </h2>
+                <!-- <div v-if="showInput">tata -->
+                  <!-- <input type="text" placeholder="categorie name" ref="categoryInput" v-model="categoryName"> -->
+                  <!-- <button @click="editCategory(category.id, newName)" class="submitbutton">Changer nom de la liste</button> -->
+                <!-- </div> -->
+                  <button @click="deleteCategory(category.id)" class="deletebutton">Delete</button>
+                </div>
             <CardList :catid="category.id" />
-            <button @click="deleteCategory(category.id)">Delete</button>
           </div>
         </div>
         <div class="ajout" @click="toggleShowForm">Ajouter une liste
           <div v-if="showForm" class="form">
             <div class="input-wrapper">
-              <input type="text" placeholder="categorie name" ref="categoryInput" v-model="categoryName">
+              <input type="text" placeholder="categorie name" v-model="categoryName" ref="categoryInput" >
             </div>
             <button @click="createCategory" class="submitbutton">Ajouter une liste</button>
             <button class="cancelbutton">Cancel</button>
@@ -82,11 +116,22 @@
       </div>
         </div>
 
+
   </template>
   
 
   
   <style>
+  .listheader {
+    display: flex;
+    justify-content: space-between;
+  }
+  h2 {
+    font-size: 20px;
+    line-height: 24px;
+    cursor: pointer;
+  }
+
   body {
     background-color: grey;
   }
@@ -101,9 +146,10 @@
   .note {
     background-color: #ebecf0;
     padding: 10px;
-    margin: 5px;
     margin: 0px;
     border-radius: 3px;
+    display: inline-table;
+    width: 215px;
   }
   .ajout {
   border-radius: 3px;
@@ -131,6 +177,17 @@
     background-color: #cccccc;
     color: #ffffff;
   }
+  .deletebutton {
+  
+  border: none;
+  color: #172b4d;
+  padding: 1px 0px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+}
   
 
   /* .note{
