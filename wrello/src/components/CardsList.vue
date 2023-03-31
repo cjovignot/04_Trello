@@ -12,10 +12,10 @@ let prop = defineProps({
 
 let cards = ref([])
 var data = new WPAPI({
-    endpoint: 'http://localhost/wordpress/index.php/wp-json/',
+    endpoint: import.meta.env.VITE_API_ENDPOINT,
     // This assumes you are using basic auth, as described further below
-    username: 'wankeradmin',
-    password: 'wankerAdmin'
+    username: import.meta.env.VITE_USERNAME,
+    password: import.meta.env.VITE_PWD
 });
 function updatelist(){
   console.log('prout,prout')
@@ -26,14 +26,6 @@ function updatelist(){
 // data.posts().get().then( posts => { cards.value = posts  } );
 
 console.log(cards)
-// const url = "http://localhost/wordpress/index.php/wp-json/wp/v2/";
-
-
-//  fetch(url)
-// .then((response) => response.json()) 
-// .then((data) => { console.log(data)
-//     // cards.value = data
-// })
 
 updatelist();
 

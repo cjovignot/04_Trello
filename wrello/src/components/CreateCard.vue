@@ -2,15 +2,10 @@
 import {ref} from 'vue';
 import WPAPI from 'wpapi';
 
-const url = "http://localhost/wordpress/index.php/wp-json/wp/v2/    ";
-
-
 const emit = defineEmits('updatecardlist')
 
-let title=ref("");
- const toggle = ref(true);
-let a = 1;
-let i = ref()
+const toggle = ref(true);
+
 const prop = defineProps({
   catid: {
     type: Number,
@@ -18,9 +13,9 @@ const prop = defineProps({
 })
      
     const wp = new WPAPI({
-  endpoint: 'http://localhost/wordpress/index.php/wp-json/',
-  username: 'wankeradmin',
-  password: 'wankerAdmin',
+  endpoint: import.meta.env.VITE_API_ENDPOINT,
+  username: import.meta.env.VITE_USERNAME,
+  password: import.meta.env.VITE_PWD,
   });
 
   
@@ -32,9 +27,6 @@ const prop = defineProps({
           content: '',
           status: 'publish',
           categories: [prop.catid]
-
-
-        
        
         //   slug: articleName.value.toLowerCase().replace(/ /g, '-'),
         });

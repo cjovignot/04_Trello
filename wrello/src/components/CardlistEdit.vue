@@ -21,10 +21,10 @@ let showForm = ref(false)
 
 let cards = ref([])
 var data = new WPAPI({
-    endpoint: 'http://localhost/wordpress/index.php/wp-json/',
+    endpoint: import.meta.env.VITE_API_ENDPOINT,
     // This assumes you are using basic auth, as described further below
-    username: 'wankeradmin',
-    password: 'wankerAdmin'
+    username: import.meta.env.VITE_USERNAME,
+    password: import.meta.env.VITE_PWD
 });
 data.posts().id(prop.postid).get().then( posts => { cards.value = posts  })
 

@@ -11,9 +11,9 @@ let prop = defineProps({
 })
 
 const wp = new WPAPI({
-  endpoint: 'http://localhost/wordpress/index.php/wp-json/',
-  username: 'wankeradmin',
-  password: 'wankerAdmin',
+  endpoint: import.meta.env.VITE_API_ENDPOINT,
+  username: import.meta.env.VITE_USERNAME,
+  password: import.meta.env.VITE_PWD,
   });
 
   const editCategory = (id, newCategoryName) => {
