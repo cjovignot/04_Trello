@@ -64,8 +64,8 @@ console.log(route.params.id)
             <textarea id="editor" class="contentpost" type="text" name="content"   
             v-model="card.content.rendered"></textarea>
             <div style="display: flex; justify-content: space-between;">
-                <button id="cancel" @click='toggle = !toggle'>Cancel</button>
-                <button id="save" v-on:click="editPost(card.title.rendered,card.content.rendered)" action="submit">Save</button>
+                <button id="cancel" @click='toggle = !toggle'>Annuler</button>
+                <button id="save" v-on:click="editPost(card.title.rendered,card.content.rendered)" action="submit">Enregistrer</button>
             </div>
         </div>
     </div>

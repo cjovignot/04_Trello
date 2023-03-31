@@ -81,117 +81,148 @@ const editCategory = (id, newCategoryName) => {
   wp.categories().id(id).update({ name: newCategoryName })
    
    updateCat();
-    } ;  
-
-
-
-
+  } ;
 updateCat()
-
- </script>
+</script>
 
 <template>
-    <div>
-      <h1>Lists</h1>
-        <div class="list">
-         <div v-for="(category, index) in categories" :key="index" class="note" >
-          <div>
-            <div class="listheader">
-              <h2 @click="toggleShowInput(category.name)">{{ category.name }} </h2>
-                <div v-if="showInput !== false && categoryNameToRename == category.name">
-                  <input type="text" :placeholder= "category.name" v-model="newCategoryName">
-                  <button @click="editCategory(category.id, newCategoryName)" class="submitbutton">Changer nom de la liste</button>
-                </div>
-                  <button @click="deleteCategory(category.id)" class="deletebutton">Delete</button>
-                </div>
-                <hr style="margin: 3px 0 6px 0;">
-            <CardList :catid="category.id" />
-          </div>
-        </div>
-        <div class="ajout" @click="toggleShowForm">Ajouter une liste
-          <div v-if="showForm" class="form">
-            <div class="input-wrapper">
-              <input type="text" placeholder="categorie name" v-model="categoryName" ref="categoryInput" >
+<div>
+  <h1>Wanker's Cards</h1>
+    <div class="list">
+      <div v-for="(category, index) in categories" :key="index" class="note" >
+      <div>
+        <div class="listheader">
+          <h2 @click="toggleShowInput(category.name)">{{ category.name }} </h2>
+            <div v-if="showInput !== false && categoryNameToRename == category.name">
+              <input type="text" :placeholder= "category.name" v-model="newCategoryName">
+              <button @click="editCategory(category.id, newCategoryName)" class="submitbutton">Changer nom de la liste</button>
             </div>
-            <button @click="createCategory" class="submitbutton">Ajouter une liste</button>
-            <button class="cancelbutton">Cancel</button>
-          </div>  
-        </div>
+              <button @click="deleteCategory(category.id)" class="deletebutton">Supprimer</button>
+            </div>
+            <hr style="margin: 3px 0 6px 0;">
+        <CardList :catid="category.id" />
       </div>
+    </div>
+    <div class="ajout" @click="toggleShowForm">Ajouter une liste
+      <div v-if="showForm" class="form">
+        <div class="input-wrapper">
+          <input type="text" placeholder="categorie name" v-model="categoryName" ref="categoryInput" >
         </div>
-
-
-  </template>
+        <div class="list_btn">
+          <button id="cancel" class="cancelbutton">Annuler</button>
+          <button id="addbtn" @click="createCategory" class="submitbutton">Ajouter une liste</button>
+        </div>
+      </div>  
+    </div>
+  </div>
+</div>
+</template>
   
 
   
-  <style>
-  .listheader {
-    display: flex;
-    justify-content: space-between;
-  }
-  h2 {
-    font-size: 20px;
-    line-height: 24px;
-    font-weight: 500;
-    cursor: pointer;
-  }
+<style>
+.listheader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+h2 {
+  font-size: 100%;
+  line-height: 24px;
+  font-weight: 500;
+  cursor: pointer;
+}
 
-  body {
-    background-color: grey;
-  }
+body {
+  background-color: grey;
+}
 
-  .list {
-    justify-content: initial;
-    gap: 20px;
-    width: auto;
-    display: flex;
-  }
-  .note {
-    background-color: #ebecf0;
-    padding: 10px;
-    margin: 0px;
-    border-radius: 3px;
-    display: inline-table;
-    width: 215px;
-    height: fit-content;
-  }
-  .ajout {
+.list {
+  justify-content: initial;
+  gap: 20px;
+  width: auto;
+  display: flex;
+}
+.list_btn {
+  display: flex;
+  justify-content: space-between;
+  transition: 0.3s;
+}
+#cancel:hover {
+  background-color: red;
+  transition: 0.3s;
+}
+#addbtn:hover {
+  background-color: green;
+  transition: 0.3s;
+}
+.list_btn button {
+  width: auto;
+  border-radius: 4px;
+  border: none;
+  padding: 5px 10px;
+  transition: 0.3s;
+}
+.list_btn button:hover {
+  cursor: pointer;
+  transition: 0.3s;
+}
+.note {
+  background-color: #ebecf0;
+  padding: 10px;
+  margin: 0px;
+  border-radius: 3px;
+  display: inline-table;
+  width: 215px;
+  height: fit-content;
+}
+.ajout {
   border-radius: 3px;
   height: fit-content;
   min-height: 32px;
-  padding: 4px;
+  padding: 4px 20px;
+  font-weight: 500;
   cursor: pointer;
-  background-color: #ebecf05e;
-  }
-  .ajout:hover {
-    background-color: #ebecf0cc;
-  }
-  .form {
-    display: flex;
-    flex-direction: column;
-  }
-  .input-wrapper {
-    margin-bottom: 10px;
-  }
-  .submitbutton {
-    background-color: #026aa7;
-    color:#ffffff;
-  }
-  .cancelbutton {
-    background-color: #cccccc;
-    color: #ffffff;
-  }
-  .deletebutton {
-  
+  background-color: #ebecf0b8;
+}
+.ajout:hover {
+  background-color: #ebecf0cc;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0;
+}
+.input-wrapper {
+  margin-bottom: 10px;
+}
+.submitbutton {
+  background-color: #026aa7;
+  color:#ffffff;
+}
+.cancelbutton {
+  background-color: #cccccc;
+  color: #ffffff;
+}
+.deletebutton {
   border: none;
   color: #172b4d;
   padding: 1px 0px;
+  background-color: #0000002e;
   text-align: center;
   text-decoration: none;
+  border-radius: 4px;
   display: inline-block;
   margin: 4px 2px;
   cursor: pointer;
+  padding: 3px 8px;
+  transition: 0.3s;
+}
+.deletebutton:hover {
+  transition: 0.3s;
+  background-color: rgb(222 60 75);
+  color: white;
+  font-weight: 500;
 }
   
 

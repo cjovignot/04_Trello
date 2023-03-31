@@ -48,7 +48,7 @@ const prop = defineProps({
 
 
 <div class="addcard"  v-show ='toggle'>
-      <button style="border:none" class="Edit" @click="toggle = !toggle"><img style="width: 10px;height: 10px;" src="../../public/plus.png" alt=""></button> 
+      <button style="border:none" class="Edit" @click="toggle = !toggle"><img style="width: 10px;height: 10px;" src="../../public/plus.png" alt=""> Ajouter une carte</button> 
   </div>
 
 
@@ -68,15 +68,22 @@ const prop = defineProps({
   color: white;
   font-weight: bolder;
   border-radius: 2px;
-  border: none;
-
-  
+  border: none; 
 }
-.addcard{
-
+.valid:hover {
+  cursor: pointer;
+}
+.Edit {
+  background-color: unset;
+}
+.addcard {
   text-align: center;
-
-
+  display: flex;
+  margin: 10px 0px 0px 0px;
+  opacity: 70%;
+}
+.addcard button:hover {
+  cursor: pointer;
 }
 
 .cardinp{
@@ -90,5 +97,8 @@ width: 153px;
   background-color: white;
  border-radius: 3px;
  border: none
+}
+.return:hover {
+  cursor: pointer;
 }
 </style>
