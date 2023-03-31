@@ -29,7 +29,7 @@ const prop = defineProps({
       try {
         const article = await wp.posts().create({
           title: articleName.value,
-          content: 'prout',
+          content: '',
           status: 'publish',
           categories: [prop.catid]
 
@@ -61,7 +61,7 @@ const prop = defineProps({
 
 
   <div class="insertcard"  v-show ='!toggle'>
-    <input class="cardinp" type="text" name="title" v-model="articleName">
+    <input class="cardinp" type="text" name="title" v-model="articleName" v-on:keyup.enter="createArticle">
     <button class="valid" v-on:click="createArticle">+</button>
     <button  class="return" @click="toggle = !toggle"><img style="width: 10px;height: 10px;border:none;" src="../../public/return.png" alt=""></button> 
   </div>

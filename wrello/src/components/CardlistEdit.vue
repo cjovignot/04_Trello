@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref,nextTick } from 'vue'
 import WPAPI from 'wpapi'
 import { createToaster } from "@meforma/vue-toaster";
 const prop = defineProps({
@@ -16,6 +16,8 @@ const prop = defineProps({
 const emit = defineEmits('titleupdate','delete')
 const toggle = ref(true)
 const toaster = createToaster({ /* options */ });
+let titleinput = ref(null);
+let showForm = ref(false)
 
 let cards = ref([])
 var data = new WPAPI({
@@ -42,6 +44,16 @@ const editCardTitle = async (title) => {
    
  }
 
+ function toggleShowForm() {
+    showForm.value = !showForm.value;
+    if (showForm.value) {
+        nextTick(() => {
+     titleinput.value.focus()
+        })
+    }
+  
+  };
+
  const deleteCard = async () => {
      
 
@@ -64,16 +76,19 @@ const editCardTitle = async (title) => {
 
 <template>
     <div v-if="cards.title != undefined"> 
-<div class="conttog" v-show ='!toggle'>
-    <input class="stack" type="text" name="title" v-model="cards.title.rendered" @keyup.enter="toggle = !toggle" v-on:keyup.enter="editCardTitle(cards.title.rendered)">
-    <button class="stackok" type="text"   @click="toggle = !toggle" v-on:click="editCardTitle(cards.title.rendered)"> ok </button>
-    <button class="stackback" type="text" @click="toggle = !toggle"><img style="width: 10px;height: 10px;border:none;" src="../../public/return.png" alt=""></button>
+<!-- <div class="overlay" v-show ='!toggle' @click="toggle = !toggle"> -->
+    <div v-if="showForm">
+    <!-- <div class="conttog"  v-show ='!toggle'   > -->
+    <input ref="titleinput" class="stack" type="text" name="title" v-model="cards.title.rendered" @keyup.enter="toggleShowForm" v-on:keyup.enter="editCardTitle(cards.title.rendered)">
+    <button class="stackok" type="text"   @click="toggleShowForm" v-on:click="editCardTitle(cards.title.rendered)"> ok </button>
+    <button class="stackback" type="text" @click="toggleShowForm"><img style="width: 10px;height: 10px;border:none;" src="../../public/return.png" alt=""></button>
 </div>
+<!-- </div> -->
 
 
 <div class="cardedit" >
 
-   <button class="buted" @click="toggle = !toggle"><img style="width: 10px;height: 10px;" src="../../public/edit.png" alt=""></button>
+   <button class="buted" @click="toggleShowForm"><img style="width: 10px;height: 10px;" src="../../public/edit.png" alt=""></button>
     <button class= "deled"  v-on:click="deleteCard">X</button>
 </div>
 </div>
@@ -94,8 +109,8 @@ const editCardTitle = async (title) => {
  border: none
     
 }
-/* 
-.conttog{
+
+/* .conttog{
 
     background-color: black;
     position: absolute;
@@ -142,4 +157,19 @@ const editCardTitle = async (title) => {
     height: 22px;
     
 }
+
+input:focus{
+    outline: none;
+}
+
+/* .overlay{
+    width: 3000px;
+    height: 600px;
+    background-color: none;
+    border: 1px solid white;
+    position: absolute;
+    left: -500px;
+    top: 0px;
+  z-index: 5;
+} */
 </style>
