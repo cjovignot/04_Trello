@@ -4,6 +4,7 @@ import { ref,onMounted } from 'vue';
 import { RouterLink } from 'vue-router'
 import CreateCard from './CreateCard.vue'
 import WPAPI from 'wpapi'
+import cardedit from './CardlistEdit.vue'
 
 let prop = defineProps({
     catid: {
@@ -19,7 +20,11 @@ var data = new WPAPI({
     username: 'wankeradmin',
     password: 'wankerAdmin'
 });
-   data.posts().param("categories", prop.catid).get().then( posts => { cards.value = posts  })
+function updatelist(){
+  console.log('prout,prout')
+  data.posts().param("categories", prop.catid).get().then( posts => { cards.value = posts  })
+
+}
 
 // data.posts().get().then( posts => { cards.value = posts  } );
 
@@ -33,83 +38,45 @@ console.log(cards)
 //     // cards.value = data
 // })
 
-
+updatelist();
 
 </script>
 
 <template>
      <!-- <div>prop {{ prop.catid }} </div> -->
-    <div class="post" v-for="(card, index) in cards" :key="index" >
+    <div class="postlist" v-for="(card, index) in cards.slice().reverse()" :key="index" >
   <a :href="'/card/'+card.id"> 
   
     <div class="cardtitle">{{ card.title.rendered }} </div>
 </a>
-
+  <cardedit :postid="card.id" :titlep="card.title.rendered" @titleupdate="updatelist"  @delete="updatelist"/>
   </div>
-  <CreateCard :catid="prop.catid"/>
+  <CreateCard :catid="prop.catid" @updatecardlist="updatelist"/>
 </template>
 <style>
 .cardtitle{
   height: 20px;
-  background-color: white;
-  margin-top:5px;
+  background: rgb(0,29,37);
+background: linear-gradient(90deg, rgba(0,29,37,1) 0%, rgba(255,255,255,1) 4%, rgba(0,212,255,0) 100%);
   overflow: hidden;
+  color: black;
+  width: 142px;
+  border-radius: 3px;
+  padding: 0 0 2px 10px;
+  line-height: 20px;
  
+  
+ 
+}
+
+.postlist{
+  display: flex;
+  justify-content: space-between
 }
 a{
   text-decoration: none;
   color: #172b4d;
 }
-/* .post:nth-child(2) {
-  background: red;
-} */
-/* 
-h2{font-weight: bold;}
-
-.limittitle{
-  overflow: hidden;
-text-overflow: ellipsis;
-white-space: nowrap;
-
-
-}
-.limit{
-  overflow: hidden;
-text-overflow: ellipsis;
-display: -webkit-box;
--webkit-line-clamp: 2;
--webkit-box-orient: vertical;
-
-}
-.postit{
-
-  width:250px;
-  height:140px;
-  position:relative;
-  background:#FA9F42;
-  overflow:hidden;
-  margin:10px 5px;
-  padding:20px;
-  border-radius:0 0 0 10px/25px;
-  box-shadow:
-  inset 0 -40px 40px rgba(0,0,0,0.2),
-    inset 0 25px 10px rgba(0,0,0,0.2),
-    0 5px 6px 5px rgba(0,0,0,0.2);
-  font-family: 'Permanent Marker', cursive;
-  line-height:1.7em;
-  font-size:19px;
-
-  color:black;
-}
-
-.divcont{
-  
-  max-height: 70px;
-    overflow: hidden;
-
-}
- */
-
 
 
 
