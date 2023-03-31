@@ -145,7 +145,6 @@ updateCat()
     justify-content: initial;
     gap: 20px;
     width: auto;
-    height: 200px;
     display: flex;
   }
   .note {
@@ -155,10 +154,11 @@ updateCat()
     border-radius: 3px;
     display: inline-table;
     width: 215px;
+    height: fit-content;
   }
   .ajout {
   border-radius: 3px;
-  height: auto;
+  height: fit-content;
   min-height: 32px;
   padding: 4px;
   cursor: pointer;
